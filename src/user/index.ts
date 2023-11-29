@@ -1,22 +1,33 @@
-import express from 'express';
-import http from 'http';
-import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
-import compression from 'compression'
-import cors from 'cors';
+import express from "express";
+import http from "http";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
+import compression from "compression";
+import cors from "cors";
+import { initDB } from "../db/initDb";
 
-const app = express();
+const StartServer = () => {
+  const app = express();
 
-app.use(cors({
-    credentials:true
-}))
+  app.use(
+    cors({
+      credentials: true,
+    })
+  );
 
-app.use(compression());
-app.use(cookieParser());
-app.use(bodyParser.json());
+  app.use(compression());
+  app.use(cookieParser());
+  app.use(bodyParser.json());
 
-const server2 = http.createServer(app)
+  const server = http.createServer(app);
 
-server2.listen(3000, () => {
-    console.log("User Server on port 3000")
-})
+  server.listen(3000, () => {
+    console.log("Server on port 3000");
+  });
+};
+
+// InitDB
+initDB();
+
+// Start server
+StartServer();
