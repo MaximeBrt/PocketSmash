@@ -9,6 +9,10 @@ export const initDB = async () => {
   try {
     const res_users = await client.query(usersInit);
     const res_friends = await client.query(friendsInit);
+    const res_Chakra = await client.query(ChakraInit);
+    const res_Effectiveness = await client.query(EffectivenessInit);
+    const res_Brawlex = await client.query(BrawlexInit);
+    const res_pocketbrawlers = await client.query(pocketbrawlersInit);
   } catch (err) {
     console.error(err);
   } finally {
@@ -39,12 +43,41 @@ const friendsInit = `
   )
 `;
 
-const pocketBrawlerInit = `
-  CREATE TABLE IF NOT EXISTS pocketbrawlers (
+const ChakraInit = `
+  CREATE TABLE IF NOT EXISTS Chakra (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) UNIQUE NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    password VARCHAR(100),
-    status VARCHAR(10) CHECK (status IN ('Online', 'Offline', 'In Match'))
+  )
+`;
+
+const EffectivenessInit = `
+  CREATE TABLE IF NOT EXISTS Effectiveness (
+    id SERIAL PRIMARY KEY,
+    id_chakra_atk SERIAL,
+    id_chakra_def SERIAL,
+    FOREIGN KEY (id_chakra_atk) REFERENCES Chakra(id),
+    FOREIGN KEY (id_chakra_def) REFERENCES Chakra(id)
+  )
+`;
+
+const BrawlexInit = `
+  CREATE TABLE IF NOT EXISTS Brawlex (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL,
+    id_chakra SERIAL,
+    hp INT,
+    power INT,
+    Speed INT,
+    FOREIGN KEY (id_chakra) REFERENCES Chakra(id)
+  )
+`;
+
+const pocketbrawlersInit = `
+  CREATE TABLE IF NOT EXISTS pocketbrawlers (
+    id SERIAL PRIMARY KEY,
+    id_brawlex SERIAL,
+    id_user SERIAL,
+    xp INT,
+    level INT
   )
 `;
