@@ -1,22 +1,36 @@
-import express from 'express';
-import http from 'http';
-import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
-import compression from 'compression'
-import cors from 'cors';
+import express from "express";
+import http from "http";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
+import compression from "compression";
+import cors from "cors";
+import { Client } from "pg";
+import { initDB } from "./initDb";
 
-const app = express();
+const bcrypt = require("bcrypt");
 
-app.use(cors({
-    credentials:true
-}))
+const StartServer = () => {
+  const app = express();
 
-app.use(compression());
-app.use(cookieParser());
-app.use(bodyParser.json());
+  app.use(
+    cors({
+      credentials: true,
+    })
+  );
 
-const server1 = http.createServer(app)
+  app.use(compression());
+  app.use(cookieParser());
+  app.use(bodyParser.json());
 
-server1.listen(3001, () => {
-    console.log("Arena Server on port 3001")
-})
+  const server = http.createServer(app);
+
+  server.listen(3001, () => {
+    console.log("Arena Server on port 3001");
+  });
+};
+
+// InitDB
+initDB();
+
+// Start server
+StartServer();

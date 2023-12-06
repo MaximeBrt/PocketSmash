@@ -18,8 +18,6 @@ export const initDB = async () => {
   }
 };
 
-
-
 const ChakraInit = `
   CREATE TABLE IF NOT EXISTS Chakra (
     id SERIAL PRIMARY KEY,
@@ -56,7 +54,6 @@ const pocketbrawlersInit = `
     id_user SERIAL,
     xp INT,
     level INT,
-    FOREIGN KEY (id_brawlex) REFERENCES Brawlex(id),
-    FOREIGN KEY (id_user) REFERENCES users(id)
+    FOREIGN KEY (id_brawlex) REFERENCES Brawlex(id)
   )
 `;
