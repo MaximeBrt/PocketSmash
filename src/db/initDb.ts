@@ -46,7 +46,7 @@ const friendsInit = `
 const ChakraInit = `
   CREATE TABLE IF NOT EXISTS Chakra (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(50) UNIQUE NOT NULL,
+    name VARCHAR(50) UNIQUE NOT NULL
   )
 `;
 
@@ -78,6 +78,8 @@ const pocketbrawlersInit = `
     id_brawlex SERIAL,
     id_user SERIAL,
     xp INT,
-    level INT
+    level INT,
+    FOREIGN KEY (id_brawlex) REFERENCES Brawlex(id),
+    FOREIGN KEY (id_user) REFERENCES users(id)
   )
 `;
