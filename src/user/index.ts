@@ -4,8 +4,8 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import compression from "compression";
 import cors from "cors";
-import { initDB } from "../db/initDb";
 import { Client } from "pg";
+import {initDB} from "./initDb";
 
 const bcrypt = require("bcrypt");
 
