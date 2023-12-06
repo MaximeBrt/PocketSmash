@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import compression from "compression";
 import cors from "cors";
 import { Client } from "pg";
-import {initDB} from "./initDb";
+import { initDB } from "./initDb";
 
 const bcrypt = require("bcrypt");
 
