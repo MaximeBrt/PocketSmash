@@ -42,7 +42,8 @@ const BrawlexInit = `
     id_chakra SERIAL,
     hp INT,
     power INT,
-    Speed INT,
+    speed INT,
+    price INT,
     FOREIGN KEY (id_chakra) REFERENCES Chakra(id)
   )
 `;

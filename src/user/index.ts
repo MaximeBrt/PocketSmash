@@ -72,7 +72,7 @@ const StartServer = () => {
     }
   });
 
-  // requête PUT update_user_by_id pour modifier un user avec son id
+  // requête PUT update_user pour modifier un user avec son id
   app.put("/users/:id", async (req, res) => {
     const client = new Client(process.env.DATABASE_URL);
     await client.connect();
