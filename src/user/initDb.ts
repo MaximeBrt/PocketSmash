@@ -38,5 +38,3 @@ const friendsInit = `
     FOREIGN KEY (id_user_2) REFERENCES users(id)
   )
 `;
-
-

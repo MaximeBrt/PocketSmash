@@ -15,7 +15,7 @@ const StartServer = () => {
   app.use(
     cors({
       credentials: true,
-    })
+    }),
   );
 
   app.use(compression());
@@ -46,7 +46,7 @@ const StartServer = () => {
     try {
       const response = await client.query(
         "INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",
-        [username, email, hashedPassword]
+        [username, email, hashedPassword],
       );
       res.json(response.rows);
     } catch (err) {
@@ -88,7 +88,7 @@ const StartServer = () => {
     try {
       const response = await client.query(
         "UPDATE users SET username = $1, email = $2, status = $3, clearance = $4, credits = $5, badges = $6 WHERE id = $7 ",
-        [username, email, status, clearance, credits, badges, user_id]
+        [username, email, status, clearance, credits, badges, user_id],
       );
       res.json(response.rows);
     } catch (err) {
