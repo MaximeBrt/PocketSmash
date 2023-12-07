@@ -1,5 +1,9 @@
 import { Client } from "pg";
 import dotenv from "dotenv";
+import { brawlex } from "./brawlex";
+import { chakra } from "./chakra";
+import { add_brawler } from "../routers/brawlex";
+import { add_chakra } from "../routers/chakra";
 
 dotenv.config();
 
@@ -8,14 +12,33 @@ export const initDB = async () => {
   await client.connect();
   try {
     const res_Chakra = await client.query(ChakraInit);
-    const res_Effectiveness = await client.query(EffectivenessInit);
+    // const res_Effectiveness = await client.query(EffectivenessInit);
     const res_Brawlex = await client.query(BrawlexInit);
-    const res_pocketbrawlers = await client.query(pocketbrawlersInit);
+    // const res_pocketbrawlers = await client.query(pocketbrawlersInit);
   } catch (err) {
     console.error(err);
   } finally {
     await client.end();
   }
+};
+
+export const fillDB = async () => {
+  for await (let chakra_json of chakra) {
+    try {
+      await add_chakra(chakra_json);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  console.log("Chakra added to the database");
+  for await (let brawler_json of brawlex) {
+    try {
+      await add_brawler(brawler_json);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  console.log("Brawlers added to the brawlex");
 };
 
 const ChakraInit = `

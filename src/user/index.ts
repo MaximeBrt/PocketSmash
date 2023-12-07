@@ -15,7 +15,7 @@ const StartServer = () => {
   app.use(
     cors({
       credentials: true,
-    }),
+    })
   );
 
   app.use(compression());
@@ -24,18 +24,20 @@ const StartServer = () => {
 
   // requête GET get_users pour avoir tous les users
   app.get("/users", async (req, res) => {
+    const client = new Client(process.env.DATABASE_URL);
+    await client.connect();
     try {
-      const client = new Client(process.env.DATABASE_URL);
-      await client.connect();
       const response = await client.query("SELECT * FROM users");
       res.json(response.rows);
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: "Error fetchig users" });
+    } finally {
+      await client.end();
     }
   });
 
-  // requête POST create_user pour créer un user
+  // requête POST add_brawler pour créer un brawler
   app.post("/users", async (req, res) => {
     const client = new Client(process.env.DATABASE_URL);
     await client.connect();
@@ -46,12 +48,14 @@ const StartServer = () => {
     try {
       const response = await client.query(
         "INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",
-        [username, email, hashedPassword],
+        [username, email, hashedPassword]
       );
       res.json(response.rows);
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: "Error creating user" });
+    } finally {
+      await client.end();
     }
   });
 
@@ -69,6 +73,8 @@ const StartServer = () => {
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: "Error creating user" });
+    } finally {
+      await client.end();
     }
   });
 
@@ -88,12 +94,14 @@ const StartServer = () => {
     try {
       const response = await client.query(
         "UPDATE users SET username = $1, email = $2, status = $3, clearance = $4, credits = $5, badges = $6 WHERE id = $7 ",
-        [username, email, status, clearance, credits, badges, user_id],
+        [username, email, status, clearance, credits, badges, user_id]
       );
       res.json(response.rows);
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: "Error creating user" });
+    } finally {
+      await client.end();
     }
   });
 
@@ -111,6 +119,8 @@ const StartServer = () => {
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: "Error deleting user" + user_id });
+    } finally {
+      await client.end();
     }
   });
 

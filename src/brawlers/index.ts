@@ -5,9 +5,8 @@ import cookieParser from "cookie-parser";
 import compression from "compression";
 import cors from "cors";
 import { Client } from "pg";
-import { initDB } from "./initDb";
-
-const bcrypt = require("bcrypt");
+import { fillDB, initDB } from "./db/initDb";
+import { add_brawler } from "./routers/brawlex";
 
 const StartServer = () => {
   const app = express();
@@ -15,12 +14,27 @@ const StartServer = () => {
   app.use(
     cors({
       credentials: true,
-    }),
+    })
   );
 
   app.use(compression());
   app.use(cookieParser());
   app.use(bodyParser.json());
+
+  // requête GET get_brawlex pour avoir tous les brawlers disponible dans le shop
+  app.get("/brawlex", async (req, res) => {
+    const client = new Client(process.env.DATABASE_URL);
+    await client.connect();
+    try {
+      const response = await client.query("SELECT * FROM Brawlex");
+      res.json(response.rows);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: "Error fetchig the Brawlex" });
+    } finally {
+      await client.end();
+    }
+  });
 
   const server = http.createServer(app);
 
@@ -31,6 +45,8 @@ const StartServer = () => {
 
 // InitDB
 initDB();
+// If the fixed table need to be filled : uncomment this line
+// fillDB();
 
 // Start server
 StartServer();
