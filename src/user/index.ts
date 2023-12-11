@@ -6,6 +6,7 @@ import compression from "compression";
 import cors from "cors";
 import { Client } from "pg";
 import { initDB } from "./initDb";
+import { buy_brawler } from "./routers/pocketbrawler";
 
 const bcrypt = require("bcrypt");
 
@@ -37,7 +38,7 @@ const StartServer = () => {
     }
   });
 
-  // requête POST add_brawler pour créer un brawler
+  // requête POST add_user pour créer un user
   app.post("/users", async (req, res) => {
     const client = new Client(process.env.DATABASE_URL);
     await client.connect();
@@ -121,6 +122,17 @@ const StartServer = () => {
       res.status(500).json({ error: "Error deleting user" + user_id });
     } finally {
       await client.end();
+    }
+  });
+
+  app.get("/pocket", async (req, res) => {
+    try {
+      const body = req.body as any;
+      const response = await buy_brawler(body);
+      res.json(response.rows);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Error buying a brawler" });
     }
   });
 

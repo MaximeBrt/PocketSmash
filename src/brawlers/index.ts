@@ -7,6 +7,7 @@ import cors from "cors";
 import { Client } from "pg";
 import { fillDB, initDB } from "./db/initDb";
 import { add_brawler } from "./routers/brawlex";
+import { add_pocketbrawler } from "./routers/pocketbrawler";
 
 const StartServer = () => {
   const app = express();
@@ -34,6 +35,13 @@ const StartServer = () => {
     } finally {
       await client.end();
     }
+  });
+
+  // requête POST add_user pour créer un user
+  app.post("/pocket", async (req, res) => {
+    const body = req.body as any;
+    const response = await add_pocketbrawler(body);
+    res.json(response.rows);
   });
 
   const server = http.createServer(app);

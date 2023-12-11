@@ -12,9 +12,9 @@ export const initDB = async () => {
   await client.connect();
   try {
     const res_Chakra = await client.query(ChakraInit);
-    // const res_Effectiveness = await client.query(EffectivenessInit);
+    const res_Effectiveness = await client.query(EffectivenessInit);
     const res_Brawlex = await client.query(BrawlexInit);
-    // const res_pocketbrawlers = await client.query(pocketbrawlersInit);
+    const res_pocketbrawlers = await client.query(pocketbrawlersInit);
   } catch (err) {
     console.error(err);
   } finally {
@@ -76,8 +76,8 @@ const pocketbrawlersInit = `
     id SERIAL PRIMARY KEY,
     id_brawlex SERIAL,
     id_user SERIAL,
-    xp INT,
-    level INT,
+    xp INT DEFAULT 0,
+    level INT DEFAULT 1,
     FOREIGN KEY (id_brawlex) REFERENCES Brawlex(id)
   )
 `;
