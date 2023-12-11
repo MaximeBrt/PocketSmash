@@ -1,0 +1,106 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "User Management API"
+paths:
+  /users:
+    get:
+      summary: "Get all users"
+      responses:
+        200:
+          description: "Successful response"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+    post:
+      summary: "Create a new user"
+      parameters:
+        - in: "body"
+          name: "user"
+          description: "User object"
+          required: true
+          schema:
+            $ref: "#/definitions/UserInput"
+      responses:
+        200:
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/User"
+  /users/{id}:
+    get:
+      summary: "Get user by ID"
+      parameters:
+        - in: "path"
+          name: "id"
+          type: "integer"
+          format: "int64"
+          required: true
+      responses:
+        200:
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/User"
+    put:
+      summary: "Update user by ID"
+      parameters:
+        - in: "path"
+          name: "id"
+          type: "integer"
+          format: "int64"
+          required: true
+        - in: "body"
+          name: "user"
+          description: "User object"
+          required: true
+          schema:
+            $ref: "#/definitions/UserInput"
+      responses:
+        200:
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/User"
+    delete:
+      summary: "Delete user by ID"
+      parameters:
+        - in: "path"
+          name: "id"
+          type: "integer"
+          format: "int64"
+          required: true
+      responses:
+        200:
+          description: "Successful response"
+          schema:
+            type: "object"
+definitions:
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      username:
+        type: "string"
+      email:
+        type: "string"
+      status:
+        type: "string"
+      clearance:
+        type: "string"
+      credits:
+        type: "integer"
+        format: "int64"
+      badges:
+        type: "array"
+        items:
+          type: "string"
+  UserInput:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
