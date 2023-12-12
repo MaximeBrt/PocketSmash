@@ -6,7 +6,7 @@ import compression from "compression";
 import cors from "cors";
 import { Client } from "pg";
 import { initDB } from "./initDb";
-import { buy_brawler } from "./routers/pocketbrawler";
+import { buy_brawler, get_collection } from "./routers/pocketbrawler";
 
 const bcrypt = require("bcrypt");
 
@@ -125,7 +125,7 @@ const StartServer = () => {
     }
   });
 
-  app.get("/pocket", async (req, res) => {
+  app.post("/pocket", async (req, res) => {
     try {
       const body = req.body as any;
       const response = await buy_brawler(body);
@@ -133,6 +133,17 @@ const StartServer = () => {
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Error buying a brawler" });
+    }
+  });
+
+  app.get("/pocket/:user_id", async (req, res) => {
+    try {
+      const params = req.params as any;
+      const response = await get_collection(params["user_id"]);
+      res.json(response);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Error getting the collection" });
     }
   });
 
