@@ -1,0 +1,92 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Brawlex API"
+paths:
+  /brawlex:
+    get:
+      summary: "Get all brawlers from the shop"
+      responses:
+        200:
+          description: "Successful response"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Brawler"
+  /pocket:
+    post:
+      summary: "Create a pocket brawler"
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: pocketBrawler
+          description: "Pocket Brawler object"
+          required: true
+          schema:
+            $ref: "#/definitions/PocketBrawlerInput"
+      responses:
+        200:
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/PocketBrawler"
+
+definitions:
+  Brawler:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      id_chakra:
+        type: "integer"
+        format: "int64"
+      hp:
+        type: "integer"
+        format: "int64"
+      power:
+        type: "integer"
+        format: "int64"
+      speed:
+        type: "integer"
+        format: "int64"
+      price:
+        type: "integer"
+        format: "int64"
+
+  PocketBrawler:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      id_brawler:
+        type: "integer"
+        format: "int64"
+      id_user:
+        type: "integer"
+        format: "int64"
+      xp:
+        type: "integer"
+        format: "int64"
+      level:
+        type: "integer"
+        format: "int64"
+
+  PocketBrawlerInput:
+    type: "object"
+    properties:
+      id_brawler:
+        type: "integer"
+        format: "int64"
+      id_user:
+        type: "integer"
+        format: "int64"
+      xp:
+        type: "integer"
+        format: "int64"
+      level:
+        type: "integer"
+        format: "int64"
