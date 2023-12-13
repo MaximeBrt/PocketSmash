@@ -84,7 +84,10 @@ const StartServer = () => {
     const client = new Client(process.env.DATABASE_URL);
     await client.connect();
     const params = req.params as any;
+    console.log(params);
+    console.log(req.body);
     const body = req.body as any;
+    console.log(body);
     const user_id = params["id"];
     const username = body["username"];
     const email = body["email"];
@@ -93,6 +96,7 @@ const StartServer = () => {
     const credits = body["credits"];
     const badges = body["badges"];
     try {
+      console.log(username);
       const response = await client.query(
         "UPDATE users SET username = $1, email = $2, status = $3, clearance = $4, credits = $5, badges = $6 WHERE id = $7 ",
         [username, email, status, clearance, credits, badges, user_id]
